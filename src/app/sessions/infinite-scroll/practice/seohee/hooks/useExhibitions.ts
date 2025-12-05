@@ -18,11 +18,14 @@ async function fetchExhibitions(page: number): Promise<ExhibitionsResponse> {
 }
 
 // 1. getNextPageParam: 다음 pageParam을 어떻게 계산할지 결정하는 규칙
+// lastPage: 마지막으로 받아온 page 데이터를 lastPage 라는 이름으로 getNextPageParams에 넘겨줌
 export function useExhibitions() {
   return useInfiniteQuery({
     queryKey: ["exhibitions"],
     queryFn: ({ pageParam = 1 }) => fetchExhibitions(pageParam),
-
+    getNextPageParam: (lastPage) => {
+      return 0;
+    },
     initialPageParam: 1,
   });
 }
