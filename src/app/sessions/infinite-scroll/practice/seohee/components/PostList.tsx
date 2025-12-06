@@ -6,11 +6,7 @@ import PostCard from "./PostCard";
 
 export default function PostList() {
   // 0. tanstack query hook 가져오기 - 다음 페이지 가져오기, 다음 페이지 있는지, 다음 페이지 페칭 중인지
-  const {
-    data,
-    isLoading,
-    isError,
-  } = useExhibitions();
+  const { data, isLoading, isError } = useExhibitions();
 
   // 1. useRef로 observerTarget 만들기(감시할 대상 만들기)
 
@@ -19,22 +15,20 @@ export default function PostList() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting ) {
+        if (entries[0].isIntersecting) {
         }
       },
       {
-        threshold: ,
+        threshold: 1,
       }
     );
 
     // 3. observe가 ref를 지켜보도록 연결하기(실제로 감시 시작)
- 
 
     return () => {
       // 4. 클린업 함수 작성(컴포넌트 사라지거나 ref가 변경될 때 카메라 회수)
-  
     };
-  }, [fetchNextPage]);
+  }, []);
 
   const allExhibitions = data?.pages.flatMap((page) => page.exhibitions) ?? [];
 
@@ -51,13 +45,9 @@ export default function PostList() {
         ))}
       </div>
       {/* 5. 감시용 ref 연결하기 */}
-      <div
-        className="w-full h-20 flex justify-center items-center my-8"
-      >
+      <div className="w-full h-20 flex justify-center items-center my-8">
         {/* 6. 더불러오는 중 상태, 모든 전시 불러오기 완료 상태 보여주기 */}
-        {false && (
-          <p className="text-lg text-gray-600">더 불러오는 중...</p>
-        )}
+        {false && <p className="text-lg text-gray-600">더 불러오는 중...</p>}
         {false && allExhibitions.length > 0 && (
           <p className="text-gray-500">모든 전시를 불러왔습니다</p>
         )}
